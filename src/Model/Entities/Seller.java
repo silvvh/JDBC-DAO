@@ -87,5 +87,4 @@ public class Seller implements Serializable {
         sb.append('}');
         return sb.toString();
     }
-
 }
