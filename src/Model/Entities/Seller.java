@@ -14,29 +14,13 @@ public class Seller implements Serializable {
     private Date birthDate;
     private Double baseSalary;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Seller seller = (Seller) o;
-        return Objects.equals(getId(), seller.getId()) && Objects.equals(getName(), seller.getName()) && Objects.equals(getEmail(), seller.getEmail()) && Objects.equals(getBirthDate(), seller.getBirthDate()) && Objects.equals(getBaseSalary(), seller.getBaseSalary());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getEmail(), getBirthDate(), getBaseSalary());
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Seller{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", birthDate=").append(birthDate);
-        sb.append(", baseSalary=").append(baseSalary);
-        sb.append('}');
-        return sb.toString();
+    public Seller() { }
+    public Seller(Integer id, String name, String email, Date birthDate, Double baseSalary) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.baseSalary = baseSalary;
     }
 
     public Integer getId() {
@@ -79,12 +63,29 @@ public class Seller implements Serializable {
         this.baseSalary = baseSalary;
     }
 
-    public Seller() {}
-    public Seller(Integer id, String name, String email, Date birthDate, Double baseSalary) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.birthDate = birthDate;
-        this.baseSalary = baseSalary;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Seller seller = (Seller) o;
+        return Objects.equals(getId(), seller.getId()) && Objects.equals(getName(), seller.getName()) && Objects.equals(getEmail(), seller.getEmail()) && Objects.equals(getBirthDate(), seller.getBirthDate()) && Objects.equals(getBaseSalary(), seller.getBaseSalary());
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName(), getEmail(), getBirthDate(), getBaseSalary());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Seller{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", birthDate=").append(birthDate);
+        sb.append(", baseSalary=").append(baseSalary);
+        sb.append('}');
+        return sb.toString();
+    }
+
 }
