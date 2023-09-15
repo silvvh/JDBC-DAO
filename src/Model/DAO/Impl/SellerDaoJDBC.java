@@ -5,6 +5,7 @@ import Model.DAO.SellerDAO;
 import Model.Entities.Department;
 import Model.Entities.Seller;
 import DB.DB;
+
 import java.sql.*;
 import java.util.List;
 
@@ -44,23 +45,39 @@ public class SellerDaoJDBC implements SellerDAO {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Department department = new Department(resultSet.getInt("department_id"), resultSet.getString("DepName"));
-                Seller seller = new Seller(
-                        resultSet.getInt("seller_id"),
-                        resultSet.getString("seller_name"),
-                        resultSet.getString("email"),
-                        resultSet.getDate("birthdate"),
-                        resultSet.getDouble("basesalary"), department);
+                Department department = instantiateDepartment(resultSet);
+                Seller seller = instantiateSeller(resultSet, department);
                 return seller;
             }
         } catch (SQLException e) {
             throw new DBException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeResultSet(resultSet);
             DB.closeStatement(preparedStatement);
         }
         return null;
+    }
+
+    private Department instantiateDepartment(ResultSet resultSet) {
+        try {
+            return new Department(resultSet.getInt("department_id"), resultSet.getString("DepName"));
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        }
+    }
+
+    private Seller instantiateSeller(ResultSet resultSet, Department department) {
+        try {
+            return new Seller(
+                    resultSet.getInt("seller_id"),
+                    resultSet.getString("seller_name"),
+                    resultSet.getString("email"),
+                    resultSet.getDate("birthdate"),
+                    resultSet.getDouble("basesalary"), department);
+        }
+        catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        }
     }
 
     @Override
