@@ -35,9 +35,8 @@ public class Department implements Serializable {
 
     @Override
     public String toString() {
-        String sb = "Department{" + "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        String sb = "Department [" + "id: " + id +
+                ", name: '" + name + '\'' + "]";
         return sb;
     }
 
