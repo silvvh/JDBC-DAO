@@ -1,8 +1,10 @@
+import Model.DAO.DAOFactory;
+import Model.DAO.SellerDAO;
 import Model.Entities.Department;
 
 public class Main {
     public static void main(String[] args) {
-        Department d1 = new Department(1, "Books");
-        System.out.println(d1);
+        SellerDAO sellerDAO = DAOFactory.createSellerDAO();
+        System.out.println(sellerDAO.findById(1));
     }
 }
