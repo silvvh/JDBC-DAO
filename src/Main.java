@@ -26,7 +26,14 @@ public class Main {
         System.out.println("==============================================");
         System.out.println("------------------- TEST INSERT: ");
         Seller seller = new Seller(null, "Test", "test@email.com", new Date(), 2500.00, department);
-        sellerDAO.insert(seller);
-        System.out.println(sellerDAO.findById(seller.getId()));
+        // sellerDAO.insert(seller);
+        // System.out.println(sellerDAO.findById(seller.getId()));
+        // TEST UPDATE
+        System.out.println("==============================================");
+        System.out.println("------------------- TEST UPDATE: ");
+        seller = sellerDAO.findById(3);
+        seller.setName("Adam Adams");
+        sellerDAO.update(seller);
+        System.out.println("Updated data: " + sellerDAO.findById(3));
     }
 }
