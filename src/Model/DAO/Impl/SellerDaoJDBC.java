@@ -8,7 +8,6 @@ import DB.DB;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class SellerDaoJDBC implements SellerDAO {
@@ -21,7 +20,30 @@ public class SellerDaoJDBC implements SellerDAO {
 
     @Override
     public void insert(Seller seller) {
-
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement("INSERT INTO seller " + "(seller_name, email, birthdate, basesalary, department_id) " + "VALUES(?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, seller.getName());
+            statement.setString(2, seller.getEmail());
+            statement.setDate(3, new Date(seller.getBirthDate().getTime()));
+            statement.setDouble(4, seller.getBaseSalary());
+            statement.setInt(5, seller.getDepartment().getId());
+            int affectedRows = statement.executeUpdate();
+            if (affectedRows > 0) {
+                resultSet = statement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    Integer id = resultSet.getInt(1);
+                    seller.setId(id);
+                }
+                else throw new DBException("No rows affected");
+            }
+        } catch (SQLException e) {
+            throw new DBException(e.getMessage());
+        } finally {
+            DB.closeStatement(statement);
+            DB.closeResultSet(resultSet);
+        }
     }
 
     @Override
@@ -106,11 +128,9 @@ public class SellerDaoJDBC implements SellerDAO {
                 sellers.add(seller);
             }
             return sellers;
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DBException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeResultSet(resultSet);
             DB.closeStatement(preparedStatement);
         }
