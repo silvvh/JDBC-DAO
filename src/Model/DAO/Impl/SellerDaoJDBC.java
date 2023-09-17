@@ -70,7 +70,7 @@ public class SellerDaoJDBC implements SellerDAO {
     public void deleteById(Integer id) {
         PreparedStatement preparedStatement = null;
         try {
-            preparedStatement = connection.prepareStatement("DELETE FROM seller.* " + "WHERE seller.seller_id = ?");
+            preparedStatement = connection.prepareStatement("DELETE FROM seller " + " WHERE seller.seller_id = ?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         }
@@ -123,23 +123,6 @@ public class SellerDaoJDBC implements SellerDAO {
             DB.closeResultSet(resultSet);
         }
     }
-
-    private Department instantiateDepartment(ResultSet resultSet) {
-        try {
-            return new Department(resultSet.getInt("department_id"), resultSet.getString("DepName"));
-        } catch (SQLException e) {
-            throw new DBException(e.getMessage());
-        }
-    }
-
-    private Seller instantiateSeller(ResultSet resultSet, Department department) {
-        try {
-            return new Seller(resultSet.getInt("seller_id"), resultSet.getString("seller_name"), resultSet.getString("email"), resultSet.getDate("birthdate"), resultSet.getDouble("basesalary"), department);
-        } catch (SQLException e) {
-            throw new DBException(e.getMessage());
-        }
-    }
-
     @Override
     public List<Seller> findAll() {
         PreparedStatement preparedStatement = null;

@@ -1,10 +1,12 @@
+package Tests;
+
 import Model.DAO.DAOFactory;
 import Model.DAO.SellerDAO;
 import Model.Entities.Department;
 import Model.Entities.Seller;
 import java.util.Date;
 
-public class Main {
+public class TestSeller {
     public static void main(String[] args) {
         SellerDAO sellerDAO = DAOFactory.createSellerDAO();
         // TEST FIND BY ID
@@ -38,5 +40,6 @@ public class Main {
         System.out.println("==============================================");
         System.out.println("------------------- TEST DELETE: ");
         sellerDAO.deleteById(11);
+        System.out.println(sellerDAO.findById(11) == null ? "Delete completed" : "Id not found");
     }
 }
